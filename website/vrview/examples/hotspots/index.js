@@ -112,30 +112,91 @@ var scenes = {
       }
     }
   },
-  mahal: {
-    image: 'mahal.jpg',
-    preview: 'mahal.jpg',
+  hall: {
+    image: 'hall.jpg',
+    preview: 'hall.jpg',
     hotspots: {
-      whaleLeft: {
+      room1: {
         pitch: 0,
-        yaw: 20,
+        yaw: 47,
         radius: 0.05,
         distance: 1
       },
-      whaleRight: {
+      room2: {
         pitch: 0,
-        yaw: 340,
+        yaw: -90,
         radius: 0.05,
         distance: 1
       },
-      dolphins: {
+      room3: {
         pitch: 0,
-        yaw: 320,
+        yaw: -107,
+        radius: 0.05,
+        distance: 1
+      },
+      balcony: {
+        pitch: 0,
+        yaw: 150,
+        radius: 0.05,
+        distance: 1
+      }
+    }
+  },
+  room1: {
+    image: 'room1.jpg',
+    preview: 'room1.jpg',
+    hotspots: {
+      hall: {
+        pitch: 0,
+        yaw: 0,
+        radius: 0.05,
+        distance: 1
+      }
+    }
+  },
+  room3: {
+    image: 'room2.jpg',
+    preview: 'room2.jpg',
+    hotspots: {
+      hall: {
+        pitch: 0,
+        yaw: 80,
+        radius: 0.05,
+        distance: 1
+      }
+    }
+  },
+  room2: {
+    image: 'room3.jpg',
+    preview: 'room3.jpg',
+    hotspots: {
+      hall: {
+        pitch: 0,
+        yaw: 180,
+        radius: 0.05,
+        distance: 1
+      },
+      balcony: {
+        pitch: 0,
+        yaw: 0,
+        radius: 0.05,
+        distance: 1
+      }
+    }
+  },
+  balcony: {
+    image: 'balcony.jpg',
+    preview: 'balcony.jpg',
+    hotspots: {
+      hall: {
+        pitch: 0,
+        yaw: 0,
         radius: 0.05,
         distance: 1
       }
     }
   }
+
 };
 
 function onLoad() {
@@ -154,7 +215,7 @@ function onLoad() {
 
 function onVRViewReady(e) {
   console.log('onVRViewReady');
-  var name = getParameterByName('name')
+  var name = getParameterByName('name');
   loadScene(name);
 }
 
