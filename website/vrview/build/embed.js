@@ -10023,7 +10023,7 @@ HotspotRenderer.prototype.focus_ = function(id) {
   // Tween scale of hotspot.
   this.tween = new TWEEN.Tween(hotspot.scale).to(FOCUS_SCALE, FOCUS_DURATION)
       .easing(TWEEN.Easing.Quadratic.InOut)
-      .onComplete(function() { self.emit('click')} )
+      .onComplete(self.emit('click'))
       .start();
 };
 
