@@ -10018,9 +10018,12 @@ HotspotRenderer.prototype.fadeOffCenterHotspots_ = function(camera) {
 HotspotRenderer.prototype.focus_ = function(id) {
   var hotspot = this.hotspots[id];
 
+  var self=this;
+
   // Tween scale of hotspot.
   this.tween = new TWEEN.Tween(hotspot.scale).to(FOCUS_SCALE, FOCUS_DURATION)
       .easing(TWEEN.Easing.Quadratic.InOut)
+      .onComplete(self.emit('click'))
       .start();
 };
 
