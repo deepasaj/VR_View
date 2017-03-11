@@ -1,1 +1,1 @@
-<?php header( 'Location: website/index.html' ) ;  ?>
+<?php header( 'Location: website/vrview/examples/hotspots/index.html' ) ;  ?>
