@@ -112,9 +112,9 @@ var scenes = {
       }
     }
   },
-  temp: {
-    image: 'temp.jpg',
-    preview: 'temp.jpg',
+  hall1: {
+    image: 'hall1.jpg',
+    preview: 'hall1.jpg',
     hotspots: {
       room1: {
         pitch: 0,
@@ -216,7 +216,7 @@ function onLoad() {
 function onVRViewReady(e) {
   console.log('onVRViewReady');
   //var name = getParameterByName('name');
-  loadScene("temp");
+  loadScene("hall1");
 }
 
 function onModeChange(e) {
@@ -226,8 +226,17 @@ function onModeChange(e) {
 function onHotspotClick(e) {
   console.log('onHotspotClick', e.id);
   if (e.id) {
-    loadScene(e.id);
+    var iframe = document.getElementsByTagName('iframe')[0].contentDocument;
+    var popup = iframe.getElementsByClassName('dialog')[0];
+    var title = iframe.getElementsByClassName('title')[0];
+    var description = iframe.getElementsByClassName('message')[0];
+    popup.style.display = 'block';
+    title.textContent = 'abdh';
+    description.textContent = 'mhvf';
   }
+  //if (e.id) {
+  //  loadScene(e.id);
+  //}
 }
 
 
