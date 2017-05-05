@@ -215,7 +215,8 @@ function onLoad() {
 
 function onVRViewReady(e) {
   console.log('onVRViewReady');
-  var name = getParameterByName('name');
+  // var name = getParameterByName('name');
+    var name = "hall";
   loadScene(name);
 }
 
