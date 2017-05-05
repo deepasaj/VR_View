@@ -9694,6 +9694,7 @@ var FOCUS_DURATION = 200;
 // Constants for the active/inactive animation.
 var INACTIVE_COLOR = new THREE.Color(1, 1, 1);
 var ACTIVE_COLOR = new THREE.Color(0.8, 0, 0);
+var black_color = new THREE.Color(0, 0, 0);
 var ACTIVE_DURATION = 100;
 
 // Constants for opacity.
@@ -9752,7 +9753,13 @@ function HotspotRenderer(worldRenderer) {
 }
 HotspotRenderer.prototype = new EventEmitter();
 
-/**
+
+var HoverTimer; // Timeout fn to simulate a click event after gazing at a hotspot
+var HoverReadyTimer; // Timeout fn to enable "real" focus event after hotspot creation (avoiding the automatic trigger at creation in HotspotRenderer.prototype.update
+var HoverReady = false; // initialize to false to avoid automatic first 'focus' event
+
+
+    /**
  * @param pitch {Number} The latitude of center, specified in degrees, between
  * -90 and 90, with 0 at the horizon.
  * @param yaw {Number} The longitude of center, specified in degrees, between
@@ -9779,7 +9786,10 @@ HotspotRenderer.prototype.add = function(pitch, yaw, radius, distance, id) {
   hotspot.lookAt(new THREE.Vector3());
   
   this.hotspotRoot.add(hotspot);
-  this.hotspots[id] = hotspot;
+    clearTimeout(HoverReadyTimer); HoverReady = false;
+    HoverReadyTimer = setTimeout(function() { HoverReady = true; }, 500);	// ready for real blur event
+
+    this.hotspots[id] = hotspot;
 }
 
 /**
@@ -9822,6 +9832,10 @@ HotspotRenderer.prototype.getCount = function() {
 };
 
 HotspotRenderer.prototype.update = function(camera) {
+    if (isIntersected && !this.selectedHotspots[id] && HoverReady) {
+        this.emit('focus', id);
+        this.focus_(id);
+    }
   if (this.worldRenderer.isVRMode()) {
     this.pointer.set(0, 0);
   }
@@ -10016,12 +10030,19 @@ HotspotRenderer.prototype.fadeOffCenterHotspots_ = function(camera) {
 };
 
 HotspotRenderer.prototype.focus_ = function(id) {
-  var hotspot = this.hotspots[id];
+    var hotspot = this.hotspots[id];
 
-  // Tween scale of hotspot.
-  this.tween = new TWEEN.Tween(hotspot.scale).to(FOCUS_SCALE, FOCUS_DURATION)
-      .easing(TWEEN.Easing.Quadratic.InOut)
-      .start();
+// Tween scale of hotspot.
+    this.tween = new TWEEN.Tween(hotspot.scale).to(FOCUS_SCALE, FOCUS_DURATION)
+        .easing(TWEEN.Easing.Quadratic.InOut)
+        .start();
+// color change
+    var inner = hotspot.getObjectByName('inner');
+    this.tween = new TWEEN.Tween(inner.material.color).to(black_color, ACTIVE_DURATION)
+        .start();
+
+// Virtual Click (todo: real fuse button)
+    if (HoverReady == true) { var that = this; HoverTimer = setTimeout(function() { that.emit('click', id); that.up_(id); }, 2000); }
 };
 
 HotspotRenderer.prototype.blur_ = function(id) {
