@@ -112,7 +112,7 @@ var scenes = {
       }
     }
   },
-  hall: {
+  temp: {
     image: 'temp.jpg',
     preview: 'temp.jpg',
     hotspots: {
