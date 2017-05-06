@@ -16,127 +16,43 @@ var vrView;
 
 // All the scenes for the experience
 var scenes = {
-  dolphins: {
-    image: 'dolphins.jpg',
-    preview: 'dolphins-preview.jpg',
-    hotspots: {
-      whaleRight: {
-        pitch: 0,
-        yaw: 110,
-        radius: 0.05,
-        distance: 1
-      },
-      whaleLeft: {
-        pitch: 0,
-        yaw: 150,
-        radius: 0.05,
-        distance: 1
-      },
-      walrus: {
-        pitch: 0,
-        yaw: 170,
-        radius: 0.05,
-        distance: 1
-      }
-    }
-  },
-  whaleLeft: {
-    image: 'whale-left.jpg',
-    preview: 'whale-left-preview.jpg',
-    hotspots: {
-      whaleRight: {
-        pitch: 0,
-        yaw: 125,
-        radius: 0.05,
-        distance: 1
-      },
-      dolphins: {
-        pitch: 0,
-        yaw: 110,
-        radius: 0.05,
-        distance: 1
-      },
-      walrus: {
-        pitch: 0,
-        yaw: 30,
-        radius: 0.05,
-        distance: 1
-      }
-    }
-  },
-  whaleRight: {
-    image: 'whale-right.jpg',
-    preview: 'whale-right-preview.jpg',
-    hotspots: {
-      dolphins: {
-        pitch: 0,
-        yaw: 305,
-        radius: 0.05,
-        distance: 1
-      },
-      whaleLeft: {
-        pitch: 0,
-        yaw: 180,
-        radius: 0.05,
-        distance: 1
-      },
-      walrus: {
-        pitch: 0,
-        yaw: 210,
-        radius: 0.05,
-        distance: 1
-      }
-    }
-  },
-  walrus: {
-    image: 'walrus.jpg',
-    preview: 'walrus-preview.jpg',
-    hotspots: {
-      whaleLeft: {
-        pitch: 0,
-        yaw: 20,
-        radius: 0.05,
-        distance: 1
-      },
-      whaleRight: {
-        pitch: 0,
-        yaw: 340,
-        radius: 0.05,
-        distance: 1
-      },
-      dolphins: {
-        pitch: 0,
-        yaw: 320,
-        radius: 0.05,
-        distance: 1
-      }
-    }
-  },
-  hall1: {
-    image: 'hall1.jpg',
-    preview: 'hall1.jpg',
+  temp: {
+    image: 'temp.jpg',
+    preview: 'temp.jpg',
     hotspots: {
       room1: {
         pitch: 0,
-        yaw: 47,
+        yaw: 38,
         radius: 0.05,
         distance: 1
       },
       room2: {
         pitch: 0,
-        yaw: -90,
+        yaw: 12,
         radius: 0.05,
         distance: 1
       },
       room3: {
         pitch: 0,
-        yaw: -107,
+        yaw: -64,
         radius: 0.05,
         distance: 1
       },
-      balcony: {
+      room4: {
         pitch: 0,
-        yaw: 150,
+        yaw: -90,
+        radius: 0.05,
+        distance: 1
+      },
+      room5: {
+        pitch: 0,
+        yaw: -167,
+        radius: 0.05,
+        distance: 1
+      },
+      room6: {
+        pitch: 0,
+        yaw: -245,
         radius: 0.05,
         distance: 1
       }
@@ -146,49 +62,7 @@ var scenes = {
     image: 'room1.jpg',
     preview: 'room1.jpg',
     hotspots: {
-      hall: {
-        pitch: 0,
-        yaw: 0,
-        radius: 0.05,
-        distance: 1
-      }
-    }
-  },
-  room3: {
-    image: 'room2.jpg',
-    preview: 'room2.jpg',
-    hotspots: {
-      hall: {
-        pitch: 0,
-        yaw: 80,
-        radius: 0.05,
-        distance: 1
-      }
-    }
-  },
-  room2: {
-    image: 'room3.jpg',
-    preview: 'room3.jpg',
-    hotspots: {
-      hall: {
-        pitch: 0,
-        yaw: 180,
-        radius: 0.05,
-        distance: 1
-      },
-      balcony: {
-        pitch: 0,
-        yaw: 0,
-        radius: 0.05,
-        distance: 1
-      }
-    }
-  },
-  balcony: {
-    image: 'balcony.jpg',
-    preview: 'balcony.jpg',
-    hotspots: {
-      hall: {
+      temp: {
         pitch: 0,
         yaw: 0,
         radius: 0.05,
@@ -196,7 +70,6 @@ var scenes = {
       }
     }
   }
-
 };
 
 function onLoad() {
@@ -216,27 +89,36 @@ function onLoad() {
 function onVRViewReady(e) {
   console.log('onVRViewReady');
   //var name = getParameterByName('name');
-  loadScene("hall1");
+  loadScene("temp");
 }
 
 function onModeChange(e) {
   console.log('onModeChange', e.mode);
 }
 
+function renderProductInfoPopup(productId) {
+  var iframe = document.getElementsByTagName('iframe')[0].contentDocument;
+  var popup = iframe.getElementsByClassName('dialog')[0];
+  var title = iframe.getElementsByClassName('title')[0];
+  var description = iframe.getElementsByClassName('message')[0];
+  // get product info from db
+  popup.style.display = 'block';
+  title.textContent = 'abdh';
+  description.textContent = 'mhvf';
+}
+
+function goToNextRoom(roomId) {
+    loadScene(roomId);
+}
+
 function onHotspotClick(e) {
-  console.log('onHotspotClick', e.id);
-  if (e.id) {
-    var iframe = document.getElementsByTagName('iframe')[0].contentDocument;
-    var popup = iframe.getElementsByClassName('dialog')[0];
-    var title = iframe.getElementsByClassName('title')[0];
-    var description = iframe.getElementsByClassName('message')[0];
-    popup.style.display = 'block';
-    title.textContent = 'abdh';
-    description.textContent = 'mhvf';
+  var id = e.id;
+    console.log('onHotspotClick', id);
+  if (id && id in scenes) {
+    goToNextRoom(id);
+  } else if (id) {
+    renderProductInfoPopup(id);
   }
-  //if (e.id) {
-  //  loadScene(e.id);
-  //}
 }
 
 

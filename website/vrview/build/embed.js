@@ -9832,10 +9832,6 @@ HotspotRenderer.prototype.getCount = function() {
 };
 
 HotspotRenderer.prototype.update = function(camera) {
-    if (isIntersected && !this.selectedHotspots[id] && HoverReady) {
-        this.emit('focus', id);
-        this.focus_(id);
-    }
   if (this.worldRenderer.isVRMode()) {
     this.pointer.set(0, 0);
   }
@@ -9872,6 +9868,10 @@ HotspotRenderer.prototype.update = function(camera) {
       this.selectedHotspots[id] = true;
     } else {
       delete this.selectedHotspots[id];
+    }
+    if (isIntersected && !this.selectedHotspots[id] && HoverReady) {
+      this.emit('focus', id);
+      this.focus_(id);
     }
   }
 };
