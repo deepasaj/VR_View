@@ -16,9 +16,9 @@ var vrView;
 
 // All the scenes for the experience
 var scenes = {
-  temp: {
-    image: 'temp.jpg',
-    preview: 'temp.jpg',
+  room: {
+    image: 'room.jpg',
+    preview: 'room.jpg',
     hotspots: {
       room1: {
         pitch: 0,
@@ -55,6 +55,42 @@ var scenes = {
         yaw: -245,
         radius: 0.05,
         distance: 1
+      },
+      item1_view: {
+        pitch: 31,
+        yaw: -300.5,
+        radius: 0.03,
+        distance: 1
+      },
+      item1_cart: {
+        pitch: 15,
+        yaw: -297.5,
+        radius: 0.03,
+        distance: 1
+      },
+      item2_view: {
+        pitch: -5,
+        yaw: -277.5,
+        radius: 0.03,
+        distance: 1
+      },
+      item2_cart: {
+        pitch: -5,
+        yaw: -282.5,
+        radius: 0.03,
+        distance: 1
+      },
+      item3_view: {
+        pitch: -65,
+        yaw: -252.5,
+        radius: 0.03,
+        distance: 1
+      },
+      item3_cart: {
+        pitch: -39,
+        yaw: -260.5,
+        radius: 0.03,
+        distance: 1
       }
     }
   },
@@ -62,7 +98,7 @@ var scenes = {
     image: 'room1.jpg',
     preview: 'room1.jpg',
     hotspots: {
-      temp: {
+      room: {
         pitch: 0,
         yaw: 0,
         radius: 0.05,
@@ -89,7 +125,7 @@ function onLoad() {
 function onVRViewReady(e) {
   console.log('onVRViewReady');
   //var name = getParameterByName('name');
-  loadScene("temp");
+  loadScene("room");
 }
 
 function onModeChange(e) {
@@ -114,9 +150,9 @@ function goToNextRoom(roomId) {
 function onHotspotClick(e) {
   var id = e.id;
     console.log('onHotspotClick', id);
-  if (id && id in scenes) {
+  if (id && id in scenes && id.includes('room')) {
     goToNextRoom(id);
-  } else if (id) {
+  } else if (id && id.includes('item') && id.includes('view')) {
     renderProductInfoPopup(id);
   }
 }

@@ -9699,7 +9699,9 @@ var ACTIVE_DURATION = 100;
 
 // Constants for opacity.
 var MAX_INNER_OPACITY = 0.8;
+  var ITEM_MAX_INNER_OPACITY = 0;
 var MAX_OUTER_OPACITY = 0.5;
+  var ITEM_MAX_OUTER_OPACITY = 0;
 var FADE_START_ANGLE_DEG = 35;
 var FADE_END_ANGLE_DEG = 60;
 /**
@@ -9776,7 +9778,7 @@ HotspotRenderer.prototype.add = function(pitch, yaw, radius, distance, id) {
     console.error('Attempt to add hotspot with existing id %s.', id);
     return;
   }
-  var hotspot = this.createHotspot_(radius, distance);
+  var hotspot = this.createHotspot_(radius, distance, id);
   hotspot.name = id;
 
   // Position the hotspot based on the pitch and yaw specified.
@@ -9965,12 +9967,17 @@ HotspotRenderer.prototype.getSize_ = function() {
   return this.worldRenderer.renderer.getSize();
 };
 
-HotspotRenderer.prototype.createHotspot_ = function(radius, distance) {
+HotspotRenderer.prototype.createHotspot_ = function(radius, distance, id) {
   var innerGeometry = new THREE.CircleGeometry(radius, 32);
+  var outerOpacity=MAX_OUTER_OPACITY, innerOpacity=MAX_INNER_OPACITY;
 
+  if (id.includes("item")) {
+    outerOpacity = ITEM_MAX_OUTER_OPACITY;
+    innerOpacity = ITEM_MAX_INNER_OPACITY;
+  }
   var innerMaterial = new THREE.MeshBasicMaterial({
     color: 0xffffff, side: THREE.DoubleSide, transparent: true,
-    opacity: MAX_INNER_OPACITY, depthTest: false
+    opacity: innerOpacity, depthTest: false
   });
 
   var inner = new THREE.Mesh(innerGeometry, innerMaterial);
@@ -9978,7 +9985,7 @@ HotspotRenderer.prototype.createHotspot_ = function(radius, distance) {
 
   var outerMaterial = new THREE.MeshBasicMaterial({
     color: 0xffffff, side: THREE.DoubleSide, transparent: true,
-    opacity: MAX_OUTER_OPACITY, depthTest: false
+    opacity: outerOpacity, depthTest: false
   });
   var outerGeometry = new THREE.RingGeometry(radius * 0.85, radius, 32);
   var outer = new THREE.Mesh(outerGeometry, outerMaterial);
@@ -10076,8 +10083,14 @@ HotspotRenderer.prototype.setOpacity_ = function(id, opacity) {
   var outer = hotspot.getObjectByName('outer');
   var inner = hotspot.getObjectByName('inner');
 
-  outer.material.opacity = opacity * MAX_OUTER_OPACITY;
-  inner.material.opacity = opacity * MAX_INNER_OPACITY;
+  var outerOpacity=MAX_OUTER_OPACITY, innerOpacity=MAX_INNER_OPACITY;
+  if (id.includes("item")) {
+    outerOpacity = ITEM_MAX_OUTER_OPACITY;
+    innerOpacity = ITEM_MAX_INNER_OPACITY;
+  }
+
+  outer.material.opacity = opacity * outerOpacity;
+  inner.material.opacity = opacity * innerOpacity;
 };
 
 module.exports = HotspotRenderer;
