@@ -230,7 +230,6 @@ function onHotspotClick(e) {
   }
 }
 
-
 function loadScene(id) {
   console.log('loadScene', id);
 
