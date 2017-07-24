@@ -98,9 +98,3 @@ canvas:active {
 #error .message {
   font-family: monospace;
 }
-
-.close_button, .cart {
-  display: inline-block;
-  float: right;
-  margin: -15px 10px;
-}
