@@ -29,14 +29,13 @@ html, body {
   -webkit-user-select: none;
   -moz-user-select: none;
   user-select: none;
-  background-color: red;
 }
 .dialog.visible {
   display: flex;
 }
 .dialog .wrap {
-  padding: 15px 15px;
-  margin: 15px;
+  padding: 30px 60px;
+  margin: 20px auto;
   width: 60%;
   background: rgba(0, 0, 0, 0.8);
   border-radius: 5px;
