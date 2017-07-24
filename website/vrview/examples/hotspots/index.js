@@ -112,9 +112,9 @@ var scenes = {
       }
     }
   },
-  temp: {
-    image: 'temp.jpg',
-    preview: 'temp.jpg',
+  hall: {
+    image: 'hall.jpg',
+    preview: 'hall.jpg',
     hotspots: {
       room1: {
         pitch: 0,
@@ -215,8 +215,9 @@ function onLoad() {
 
 function onVRViewReady(e) {
   console.log('onVRViewReady');
-  //var name = getParameterByName('name');
-  loadScene("try");
+  // var name = getParameterByName('name');
+    var name = "hall";
+  loadScene(name);
 }
 
 function onModeChange(e) {
